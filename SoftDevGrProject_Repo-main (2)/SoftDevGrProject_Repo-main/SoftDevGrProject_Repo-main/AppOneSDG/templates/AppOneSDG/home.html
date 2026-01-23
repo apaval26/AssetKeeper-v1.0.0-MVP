@@ -1,0 +1,134 @@
+{% extends 'main.html' %}
+
+
+{% block contentTitle %}
+    <title>Title of the home page</title>
+{% endblock contentTitle%}
+
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/home_style.css">
+    <style>
+        .wrapper { 
+            background: url("/static/AppOneSDG/background.jpeg"); 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            background-size: cover;
+            height: 900px; /* full viewport height */ 
+            width: 100%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+           
+           }
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.nav-buttons a {
+    padding: 12px 28px;
+    background-color: #020077;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.nav-buttons a:hover {
+    background-color: #5899E2;
+    transform: translateY(-2px);
+}
+
+.nav-buttons a:hover {
+    background-color: #5899E2;
+    transform: translateY(-2px);
+}
+
+footer { display: none !important; }
+
+    
+    </style>
+    
+    
+{% endblock extra_css %}
+
+
+{% block contentBody %}
+
+{%if not user.is_authenticated %}
+    <div class="wrapper" style = "height:1050px;">
+        <div class="overlay">
+            <div class="text">
+                <center>
+                <h1 style = "color:white; padding-bottom:60px;font-size:40px;">Welcome To Asset Keeper!</h1>
+               
+                </center>
+                <br><br><br><br><br><br><br>
+                <center>
+                    <div class="nav-buttons"> <a href="{% url 'sign_up' %}">Sign Up</a> <a href="{% url 'login' %}">Login</a> </div>
+                </center>
+                
+
+            </div>
+        </div>
+    </div>
+{%endif%}
+
+{% if user.is_authenticated %}
+
+<div class="wrapper">
+    <div class="overlay">
+        <div class="text">
+            <h1 style = "color: white; padding-bottom:60px;font-size:40px;">Welcome To Asset Keeper</h1>
+            <br><br><br><br><br><br><br>
+            <center>
+                {%if not user.is_superuser%}
+                <div class="nav-buttons"> <a href="{% url 'devicesInventoryUser' %}">Go to organisational assets</a> <a href="{% url 'login' %}">About AssetKeeper</a> </div>
+                {%endif%}
+                {%if user.is_superuser%}
+                <div class="nav-buttons"> <a href="{% url 'devicesInventory' %}">Go to organisational assets</a> <a href="{% url 'login' %}">About AssetKeeper</a> </div>
+                {%endif%}
+
+            </center>
+
+
+            
+
+        </div>
+    </div>
+</div>
+
+<br><br><br>
+
+<div>
+   
+            <center> <h1 style = "color: var(--text-primary); padding-bottom:60px;font-size:40px;">Why Asset Keeper?</h1> </center>
+            <br>
+            <div style="display:flex; justify-content:center; align-items:center;"> <img src= 'static/AppOneSDG/about-assetkeeper.png' alt="about banner" style="max-width:100%; height:auto;"> </div>
+            <br><br><br>
+            <p style = "font-family:Arial;font-size: 22px;color: var(--text-primary)">Asset Keeper is redefining digital asset management by bringing precision, efficiency, and scalable control to organizational workflows. In a world where data is scattered and systems are siloed. </p>
+            <br>
+            <p style = "font-family:Arial;font-size: 22px;color: var(--text-primary)">Asset Keeper offers a rare moment of clarity — a unified interface where assets are not just stored, but strategically activated. We make that moment smarter.</p>
+            <br>
+            <p style = "font-family:Arial;font-size: 22px;color: var(--text-primary)"> Our platform empowers teams to manage, track, and optimize assets with the same agility and data-driven intelligence they expect from modern digital ecosystems.Whether you're categorizing by department, asset type, lifecycle stage, or accessibility priority, Asset Keeper delivers unmatched flexibility and real-time oversight — without compromising usability or compliance.</p>
+            <br>
+            <p style = "font-family:Arial;font-size: 22px;color: var(--text-primary)"> We believe in transparency, automation, and measurable impact. With Asset Keeper, asset management is no longer a passive repository — it’s a dynamic, insight-powered system that connects teams with the resources they need, exactly when they need them.</p>
+
+            <br><br><br><br><br>
+
+        </div>
+    </div>
+</div>
+
+{%endif%}
+
+{% endblock contentBody %}

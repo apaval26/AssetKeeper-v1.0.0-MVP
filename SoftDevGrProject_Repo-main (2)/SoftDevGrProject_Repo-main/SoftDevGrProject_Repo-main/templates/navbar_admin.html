@@ -1,0 +1,56 @@
+<!-- The following code will be executed once an admin is logged into the system-->
+
+<!--This is the navigation bar that appears for specifically admin users who are logged in-->
+<div id="navLogo">
+    <a href="/">
+        <img src="/static/AppOneSDG/Asset Keeper.png" width = "280" height = "80" alt="WLogo">
+    </a>
+</div>
+
+<div class="navToggleBtn">
+    <div class="hamburgerLine"></div>
+    <div class="hamburgerLine"></div>
+    <div class="hamburgerLine"></div>
+    <i class='fa-solid fa-xmark'></i>
+</div>
+
+<nav class="navLinks">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/devicesInventory/">Devices</a></li>
+        <li><a href="/logout/">Logout</a></li>
+        <li><a href="/contactus/">Contact Us</a></li>
+        <li><a href="/manageBookings/">Manage Bookings</a></li>
+        <li><a href = "/completedBookingsAdmin/"> Completed Bookings </a></li>
+        <li><button id="theme-toggle">🌙</button></li>
+    </ul>
+</nav>
+
+<script> const toggleBtn = document.getElementById('theme-toggle'); const root = document.documentElement; toggleBtn.addEventListener('click', () => { const currentTheme = root.getAttribute('data-theme'); const newTheme = currentTheme === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', newTheme); toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙'; }); </script>
+
+<!--- Light and Dark Mode always consistent by being saved to localStorage code -->
+<!--
+<script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+    
+    // 1. Load saved theme on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        root.setAttribute('data-theme', savedTheme);
+        toggleBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+    
+    // 2. Toggle theme and save it
+    toggleBtn.addEventListener('click', () => {
+        const currentTheme = root.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    
+        toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+    </script>
+
+-->

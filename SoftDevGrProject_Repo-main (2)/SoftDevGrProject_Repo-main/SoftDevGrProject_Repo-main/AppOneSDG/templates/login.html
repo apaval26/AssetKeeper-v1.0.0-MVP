@@ -1,0 +1,220 @@
+{% extends 'main.html' %}
+
+{% block contentTitle %}
+<title>Login</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/background-image.css">
+
+<style>
+    .login-container {
+        max-width: 500px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .login-form p {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-form label {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .checkbox-container label {
+        color: white;
+    }
+
+    .button-container button {
+        margin-right: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #0077cc;
+        color: white;
+        cursor: pointer;
+    }
+
+    .button-container button:hover {
+        background-color: #005fa3;
+    }
+
+    .forgot-password a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    .form-errors p {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .field-error {
+        color: red;
+        font-size: 14px;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<br><br><br><br><br>
+
+<div class="login-container">
+    <h1>Login</h1>
+
+    <!-- Django backend error -->
+    {% if message %}
+        <div class="form-errors">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
+
+    <form method="POST" class="login-form" novalidate>
+        {% csrf_token %}
+
+        <fieldset>
+            <br><br>
+
+            <!-- Django form fields -->
+            {{ form.as_p }}
+
+            <!-- Inline error containers (JS will fill these) -->
+            <p class="field-error" id="error-email"></p>
+            <p class="field-error" id="error-password"></p>
+
+            <!-- REMEMBER ME -->
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div class="forgot-password">
+                <a href="{% url 'forgot_password' %}">Forgot your password?</a>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="button-container">
+                <button type="submit"><span class="icon">&#128274;</span>Login</button>
+                <button type="button" onclick="clearForm()">Clear Form</button>
+            </div>
+
+            <!-- SIGN UP LINK -->
+            <div class="checkbox-container">
+                <label>
+                    Don't have an account?
+                    <a href="/sign_up/">Please sign up here.</a>
+                </label>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<!-- LIVE + SUBMIT VALIDATION -->
+<script>
+const emailField = document.querySelector("input[name='username'], input[name='email']");
+const passwordField = document.querySelector("input[name='password']");
+
+// -------------------------
+// LIVE VALIDATION
+// -------------------------
+
+emailField.addEventListener("input", function () {
+    const email = emailField.value.trim();
+    const errorBox = document.getElementById("error-email");
+
+    if (!email) {
+        errorBox.textContent = "Email is required.";
+    }
+    else if (!email.includes("@") || !email.includes(".")) {
+        errorBox.textContent = "Email must contain @ and . symbols.";
+    }
+    else {
+        errorBox.textContent = "";
+    }
+});
+
+passwordField.addEventListener("input", function () {
+    const password = passwordField.value;
+    const errorBox = document.getElementById("error-password");
+
+    if (!password) {
+        errorBox.textContent = "Password is required.";
+    }
+    else {
+        errorBox.textContent = "";
+    }
+});
+
+// -------------------------
+// SUBMIT VALIDATION
+// -------------------------
+
+document.querySelector(".login-form").addEventListener("submit", function(event) {
+    document.getElementById("error-email").textContent = "";
+    document.getElementById("error-password").textContent = "";
+
+    const email = emailField.value.trim();
+    const password = passwordField.value;
+
+    let hasError = false;
+
+    if (!email && !password) {
+        document.getElementById("error-email").textContent = "You must enter your email address and password.";
+        hasError = true;
+    }
+    else if (!email) {
+        document.getElementById("error-email").textContent = "Please enter your email address.";
+        hasError = true;
+    }
+    else if (!email.includes("@") || !email.includes(".")) {
+        document.getElementById("error-email").textContent = "Email must contain @ and . symbols.";
+        hasError = true;
+    }
+    else if (!password) {
+        document.getElementById("error-password").textContent = "Please enter your password.";
+        hasError = true;
+    }
+
+    if (hasError) {
+        event.preventDefault();
+    }
+});
+
+// -------------------------
+// CLEAR FORM
+// -------------------------
+
+function clearForm() {
+    if (emailField) emailField.value = "";
+    if (passwordField) passwordField.value = "";
+
+    document.getElementById("error-email").textContent = "";
+    document.getElementById("error-password").textContent = "";
+}
+</script>
+
+{% endblock contentBody %}

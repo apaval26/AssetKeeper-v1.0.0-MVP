@@ -1,0 +1,150 @@
+{% extends 'main_user.html' %}
+
+{% block contentTitle %}
+<title>Completed Bookings</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/mystylesheetSDG.css">
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/contact-us.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<style>
+    #currentBooking,td,tr,th{
+        border: 1px solid var(--table-border); 
+        color: var(--text-secondary);
+       }
+
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<div class = "wrapper">
+
+    <div class = "overlay">
+    
+    <div class = "text">
+    
+    <h1 id = "intro" style = "color:white;">Completed/Returned Bookings </h1>
+    
+    </div>
+    </div>
+    </div>
+    </div>
+
+<h1 class="title" style="color: var(--text-primary);">Completed / Returned Bookings</h1>
+
+<br><br><br><br>
+<input
+  type="search"
+  id="searchBar"
+  placeholder="Search the device you want to borrow by ID, Asset Tag, name or type"
+  style=" width:701px; font-size:18px; height:40px; margin-left:500px;color: var(--text-primary); background-color: var(--body-bg); border-bottom: 1px solid var(--table-border); "
+>
+
+<button id = "generateReportBtn2" class = "bookingApprove" style = "background:green;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">Generate Report</button>
+
+
+
+<br><br>
+
+<table style="width:100%" id="currentBookings">
+    <tr>
+        <th>User</th>
+        <th>Reservation ID</th>
+        <th>Equipment ID</th>
+        <th> Equipment Name </th>
+        <th> Equipment Type </th>
+        <th>Quantity</th>
+        <th> Reservation Status </th>
+        <th>Return Date</th>
+        <th>Notes</th>
+    </tr>
+
+    {% for r in completed_reservations %}
+    <tr data-id="{{ r.reservationId }}">
+        <td>{{ r.userId.username }}</td>
+        <td>{{ r.reservationId }}</td>
+        <td>{{ r.equipId.equipId }}</td>
+        <td>{{ r.equipId.equipName }}</td>
+        <td>{{ r.equipId.equipType }}</td>
+        <td>{{ r.quantityBorrowed }}</td>
+        <td>{{ r.reservationStatus }}</td>
+        <td>{{ r.returnDate }}</td>
+        <td>{{ r.reservationNotes }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" style="text-align:center; padding:20px;">
+            No completed bookings found.
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock contentBody %}
+
+{% block extra_js %}
+<script>
+function fuzzyMatch(text, search) { if (!search) return true; if (text.includes(search)) return true; let i = 0; let j = 0; while (i < text.length && j < search.length) { if (text[i] === search[j]) { j++; } i++; } return (j / search.length) >= 0.6; }
+document.addEventListener("DOMContentLoaded", function () {
+
+    // LIVE SEARCH
+    document.getElementById("searchBar").addEventListener("input", function () {
+        const searchValue = this.value
+            .toLowerCase()
+            .replace(/\u00A0/g, " ")     // remove non-breaking spaces
+            .replace(/\u200B/g, "")      // remove zero-width spaces
+            .replace(/[^a-z0-9 ]/gi, "") // remove symbols
+            .replace(/\s+/g, "")         // remove ALL spaces for matching
+            .trim();
+    
+        const rows = document.querySelectorAll("#currentBookings tr");
+    
+        rows.forEach((row, index) => {
+            if (index === 0) return;
+    
+            const cells = row.querySelectorAll("td");
+            let match = false;
+    
+            cells.forEach(cell => {
+                const text = cell.innerText
+                    .toLowerCase()
+                    .replace(/\u00A0/g, " ")
+                    .replace(/\u200B/g, "")
+                    .replace(/[^a-z0-9 ]/gi, "")
+                    .replace(/\s+/g, "")  // remove ALL spaces
+                    .trim();
+    
+                    if (fuzzyMatch(text, searchValue)) { match = true; }
+            });
+    
+            row.style.display = match ? "" : "none";
+        });
+    });
+
+    // EXPORT ONLY VISIBLE COMPLETED BOOKINGS
+    document.getElementById("generateReportBtn2").addEventListener("click", function () {
+        const visibleIds = [];
+        const dataRows = document.querySelectorAll("#currentBookings tr[data-id]");
+    
+        dataRows.forEach(row => {
+            if (row.style.display !== "none") {
+                visibleIds.push(row.getAttribute("data-id"));
+            }
+        });
+    
+        if (visibleIds.length === 0) {
+            alert("No results to export.");
+            return; // stop here
+        }
+    
+        const params = new URLSearchParams();
+        params.append("ids", visibleIds.join(","));
+    
+        window.location.href = `/export_completed_bookings_user/?${params.toString()}`;
+    });
+    });
+</script>
+{% endblock extra_js %}

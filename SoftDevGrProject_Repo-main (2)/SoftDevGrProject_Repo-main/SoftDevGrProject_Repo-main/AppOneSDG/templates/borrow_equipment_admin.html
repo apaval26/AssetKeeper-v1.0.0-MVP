@@ -1,0 +1,296 @@
+{% extends 'main_admin.html' %}
+
+{% block contentTitle %}
+    <title>Borrow Equipment</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/mystylesheetSDG.css">
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/contact-us.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+<style>
+    form {
+        margin-left: 100px;
+        font-family: "Montserrat";
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+        color: var(--text-primary);
+    }
+
+    input,
+    textarea,
+    select {
+        width: 400px;
+        padding: 8px;
+        margin-top: 5px;
+        color: var(--text-primary);
+        background-color: var(--body-bg);
+        border: 1px solid var(--table-border);
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #020077;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5899E2;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .info-box {
+        margin-top: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        color: var(--text-primary);
+    }
+
+    .unavailable-option {
+        background: transparent;
+        color: red;
+        font-weight: bold;
+    }
+
+    .unavailable {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<h1 style="color: var(--text-primary);">Borrow Equipment</h1>
+
+<form id="borrowForm" method="POST" action="{% url 'borrow_equipment' %}">
+    {% csrf_token %}
+
+    <label>Equipment</label>
+    <select name="equipId" id="equipId">
+        <option value="">-- Select Equipment --</option>
+
+        {% for equipmentItem in equipments %}
+            {% if equipmentItem.equipQuantity == 0 %}
+                <option value="{{ equipmentItem.equipId }}"
+                        class="unavailable-option"
+                        disabled
+                        data-name="{{ equipmentItem.equipName }}"
+                        data-category="{{ equipmentItem.equipType }}"
+                        data-location="{{ equipmentItem.equipLocation }}"
+                        data-quantity="{{ equipmentItem.equipQuantity }}">
+                    {{ equipmentItem.equipName }} (ID: {{ equipmentItem.equipId }}) — Out Of Stock
+                </option>
+            {% else %}
+                <option value="{{ equipmentItem.equipId }}"
+                        data-name="{{ equipmentItem.equipName }}"
+                        data-category="{{ equipmentItem.equipType }}"
+                        data-location="{{ equipmentItem.equipLocation }}"
+                        data-quantity="{{ equipmentItem.equipQuantity }}">
+                    {{ equipmentItem.equipName }} (ID: {{ equipmentItem.equipId }}) — {{ equipmentItem.equipQuantity }} available
+                </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>Asset Name</label>
+    <input type="text" name="equipName" id="equipName">
+
+    <label>Quantity to Borrow</label>
+    <input type="number" name="quantityBorrowed" id="quantityBorrowed" min="1">
+
+    <label>Booked By (Full Name)</label>
+    <input type="text" name="bookedBy">
+
+    <label>Category</label>
+    <input type="text" name="category" id="category">
+
+    <label>Location</label>
+    <input type="text" name="location" id="location">
+
+    <label>Start Date</label>
+    <input type="date" name="startDate" id="startDate">
+
+    <label>End Date</label>
+    <input type="date" name="endDate" id="endDate">
+
+    <label>Notes</label>
+    <textarea name="notes"></textarea>
+
+    <label>
+        <input type="checkbox" name="agreement">
+        I confirm that this equipment will be returned by the due date in good condition.
+    </label>
+
+    <button type="submit" style="background: #E29427">Submit</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("borrowForm");
+
+    const equipId = document.getElementById("equipId");
+    const equipName = document.getElementById("equipName");
+    const category = document.getElementById("category");
+    const locationField = document.getElementById("location");
+    const quantity = document.getElementById("quantityBorrowed");
+
+    const bookedBy = document.querySelector("input[name='bookedBy']");
+    const startDate = document.getElementById("startDate");
+    const endDate = document.getElementById("endDate");
+    const notes = document.querySelector("textarea[name='notes']");
+    const agreement = document.querySelector("input[name='agreement']");
+
+    const today = new Date().toISOString().split("T")[0];
+
+    // Prevent past dates
+    startDate.setAttribute("min", today);
+    endDate.setAttribute("min", today);
+
+    function createErrorMessage(field, message) {
+        let error = field.nextElementSibling;
+        if (!error || !error.classList.contains("error-message")) {
+            error = document.createElement("div");
+            error.className = "error-message";
+            field.insertAdjacentElement("afterend", error);
+        }
+        error.textContent = message;
+        field.classList.add("error");
+    }
+
+    function clearError(field) {
+        let error = field.nextElementSibling;
+        if (error && error.classList.contains("error-message")) {
+            error.textContent = "";
+        }
+        field.classList.remove("error");
+    }
+
+    // Equipment selection
+    equipId.addEventListener("change", () => {
+        const selected = equipId.options[equipId.selectedIndex];
+
+        if (!equipId.value) {
+            createErrorMessage(equipId, "Please select equipment.");
+            return;
+        }
+
+        clearError(equipId);
+
+        equipName.value = selected.dataset.name;
+        category.value = selected.dataset.category;
+        locationField.value = selected.dataset.location;
+    });
+
+    // Quantity validation (whole numbers only)
+    quantity.addEventListener("input", () => {
+        const selected = equipId.options[equipId.selectedIndex];
+        const maxQty = parseInt(selected.dataset.quantity || 0);
+        const rawValue = quantity.value;
+
+        if (rawValue.includes(".") || rawValue.includes(",")) {
+            createErrorMessage(quantity, "Quantity must be a whole number.");
+            return;
+        }
+
+        const val = parseInt(rawValue);
+
+        if (!val || val < 1) {
+            createErrorMessage(quantity, "Quantity must be at least 1.");
+            return;
+        }
+
+        if (val > maxQty) {
+            createErrorMessage(quantity, `Only ${maxQty} available.`);
+            return;
+        }
+
+        clearError(quantity);
+    });
+
+    // Start date validation
+    startDate.addEventListener("change", () => {
+        if (!startDate.value) {
+            createErrorMessage(startDate, "Start date is required.");
+            return;
+        }
+
+        if (startDate.value < today) {
+            createErrorMessage(startDate, "Start date cannot be in the past.");
+            return;
+        }
+
+        if (endDate.value && endDate.value < startDate.value) {
+            createErrorMessage(endDate, "End date cannot be before start date.");
+        }
+
+        clearError(startDate);
+    });
+
+    // End date validation
+    endDate.addEventListener("change", () => {
+        if (!endDate.value) {
+            createErrorMessage(endDate, "End date is required.");
+            return;
+        }
+
+        if (endDate.value < today) {
+            createErrorMessage(endDate, "End date cannot be in the past.");
+            return;
+        }
+
+        if (startDate.value && endDate.value < startDate.value) {
+            createErrorMessage(endDate, "End date cannot be before start date.");
+            return;
+        }
+
+        clearError(endDate);
+    });
+
+    // Submit validation
+    form.addEventListener("submit", function (event) {
+        let hasError = false;
+
+        // Trigger all validations
+        startDate.dispatchEvent(new Event("change"));
+        endDate.dispatchEvent(new Event("change"));
+        quantity.dispatchEvent(new Event("input"));
+
+        if (!equipId.value) {
+            createErrorMessage(equipId, "Please select equipment.");
+            hasError = true;
+        }
+
+        if (!bookedBy.value.trim()) {
+            createErrorMessage(bookedBy, "Full name is required.");
+            hasError = true;
+        }
+
+        if (!agreement.checked) {
+            createErrorMessage(agreement, "You must confirm the agreement.");
+            hasError = true;
+        }
+
+        if (hasError) event.preventDefault();
+    });
+
+});
+</script>
+
+{% endblock contentBody %}

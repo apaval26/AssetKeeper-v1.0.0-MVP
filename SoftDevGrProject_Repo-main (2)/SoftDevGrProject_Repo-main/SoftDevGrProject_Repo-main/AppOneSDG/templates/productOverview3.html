@@ -1,0 +1,306 @@
+{%extends "main_admin.html"%}
+
+{%block contentBody%}
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Navbar </title>
+    <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+    <link rel = "stylesheet" href = "styles.css" type = "text/css"/>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/contact-us.css">
+    <style>
+
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: sans-serif;
+       
+      }
+      
+      .container {
+        max-width: 75%;
+        margin: auto;
+        height: 90vh;
+        margin-top: 5%;
+        background: white;
+        box-shadow: 5px 5px 10px 3px rgba(0, 0, 0, 0.3);
+      }
+      
+      .left, .right {
+        width: 50%;
+        padding: 30px;
+      }
+      
+      .flex {
+        display: flex;
+        justify-content: space-between;
+      }
+      
+      .flex1 {
+        display: flex;
+      }
+      
+      .main_image {
+        width: auto;
+        height: auto;
+      }
+      
+      .option img {
+        width: 75px;
+        height: 75px;
+        padding: 10px;
+        margin-left:50px;
+      }
+      
+      /*.right {
+        padding: 50px 100px 50px 50px;
+      }*/
+      
+      h3 {
+        color: #0000AA;
+        margin: 20px 0 20px 0;
+        font-size: 25px;
+        font-weight:bold;
+      }
+      
+      h5,
+      p,
+      small {
+        color: #837D7C;
+      }
+      
+      h4 {
+        color: red;
+      }
+      
+      p {
+        margin: 20px 0 50px 0;
+        line-height: 25px;
+      }
+      
+      h5 {
+        font-size: 15px;
+      }
+      
+      label,
+      .add span,
+      .color span {
+        width: 25px;
+        height: 25px;
+        background: #000;
+        border-radius: 50%;
+        margin: 20px 10px 20px 0;
+      }
+      
+      .color span:nth-child(2) {
+        background: #EDEDED;
+      }
+      
+      .color span:nth-child(3) {
+        background: #D5D6D8;
+      }
+      
+      .color span:nth-child(4) {
+        background: #EFE0DE;
+      }
+      
+      .color span:nth-child(5) {
+        background: #AB8ED1;
+      }
+      
+      .color span:nth-child(6) {
+        background: #F04D44;
+      }
+      
+      .add label,
+      .add span {
+        background: none;
+        border: 1px solid #0000AA;
+        color: #837D7C;
+        text-align: center;
+        line-height: 25px;
+      }
+      
+      .add label {
+        padding: 10px 30px 0 20px;
+        border-radius: 50px;
+        line-height: 0;
+      }
+      
+      button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        outline: none;
+        background: #0000AA;
+        color: white;
+        margin-top: 10%;
+        border-radius: 30px;
+
+      }
+
+      button:hover{
+        background: lightblue;
+      }
+      
+      @media only screen and (max-width:768px) {
+        .container {
+          max-width: 90%;
+          margin: auto;
+          height: auto;
+        }
+      
+        .left, .right {
+          width: 100%;
+        }
+      
+        .container {
+          flex-direction: column;
+        }
+      }
+      
+      @media only screen and (max-width:511px) {
+        .container {
+          max-width: 100%;
+          height: auto;
+          padding: 10px;
+        }
+      
+        .left, .right {
+          padding: 0;
+        }
+      
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      
+        .option {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+
+
+
+</style>
+
+
+
+</head>
+
+
+<body>
+
+
+
+
+<div class = "wrapper">
+
+<div class = "overlay">
+
+<div class = "text">
+
+<h1 id = "intro">Product Overview </h1>
+
+</div>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<h1 class = "title">Product Overview </h1>
+
+<section>
+    <div class="container flex">
+      <div class="left">
+        <div class="main_image">
+          <img src="/static/AppOneSDG/device3.svg"class="slide" width= "500" height= "450">
+        </div>
+        
+      </div>
+      <div class="right">
+        <h3>Xbox Kinect 1</h3>
+        
+        <p>The Kinect sensor is a legacy product originally released for Xbox 360, and then for the Xbox One series with the Kinect Adaptor. Kinect has a built-in camera that lets you play interactive games, take pictures, and more. Settings on compatible Xbox consoles give you control over whether an attached Kinect is on, and which apps can use it.
+          The Kinect camera is active only if you’ve turned on Kinect. The camera doesn’t work—and apps can’t access it—if you’ve turned off or disconnected your Kinect. A light near the camera lens on the left side of the sensor indicates when Kinect is on and ready to capture video or still images. </p>
+        <h5>Quantity</h5>
+        <div class="add flex1">
+          <span id = "decreaseBtn">-</span>
+          <label id = "countLabel">1</label>
+          <span id = "increaseBtn">+</span>
+        </div>
+
+        <button>Book Now</button>
+      </div>
+    </div>
+  </section>
+
+
+<script>
+
+ hamburger = document.querySelector(".hamburger");
+ hamburger.onclick = function(){
+    navBar = document.querySelector(".nav-bar");
+    navBar.classList.toggle("active");
+ }
+
+ function img(anything) {
+    document.querySelector('.slide').src = anything;
+  }
+
+  function change(change) {
+    const line = document.querySelector('.home');
+    line.style.background = change;
+  }
+
+  
+   let count = 0;
+
+   document.getElementById("decreaseBtn").onclick = function(){
+
+    count-=1
+    document.getElementById("countLabel").innerHTML = count;
+
+   }
+
+   document.getElementById("increaseBtn").onclick = function(){
+
+    count+=1
+    document.getElementById("countLabel").innerHTML = count;
+
+   }
+     
+
+
+</script>
+
+{%endblock contentBody%}
+
+
+
+    
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>

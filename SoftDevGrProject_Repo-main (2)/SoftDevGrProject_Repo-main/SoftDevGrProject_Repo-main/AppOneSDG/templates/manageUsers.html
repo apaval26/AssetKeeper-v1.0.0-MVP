@@ -1,0 +1,213 @@
+
+{% extends 'main_admin.html' %}
+
+
+{% block contentTitle %}
+    <title>Contact Us</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/contact-us.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <style>
+
+        .links {
+            display:inline-block;
+            
+            width: 167px;
+            height: 61px;
+            background: #020077;
+            color: white;
+            font-weight:bold;
+            font-family: "Montserrat";
+            margin-left: 10px;
+            padding-top: 20px;
+            text-align:center;
+            
+            
+            }
+            
+            .links:hover{
+                background: #5899E2;
+            }
+            
+            #links {
+            margin-left: 45px;
+            }
+
+            #currentBooking,td,tr,th{
+                border: 1px solid black;
+               }
+            
+    
+    
+    
+    
+    </style>
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+{% endblock extra_css %}
+
+
+{% block contentBody %}
+
+<div class = "wrapper">
+
+<div class = "overlay">
+
+<div class = "text">
+
+<h1 id = "intro">User Management </h1>
+
+</div>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<h1 class = "title">User Management </h1>
+
+<br><br><br><br>
+
+<table style = "width:100%" id = "currentBooking">
+<tr>
+<th>User Id</th>
+<th>Full Name</th>
+<th>Email Address</th>
+<th>Telephone Number</th>
+<th>Emergency Contact</th>
+<th> Actions </th>
+</tr>
+
+
+<!--Blank Row 1-->
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+    <button class = "bookingApprove" style = "background:orange;font-weight:bold;">Approve</button>
+    <br>
+    <button id = "bookingCancellation">Reject </button>
+    
+    
+    
+    </td>
+</tr>
+
+
+<!--Blank Row 2-->
+
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class = "bookingApprove" style = "background:orange;font-weight:bold;">Approve</button>
+        <br>
+        <button id = "bookingCancellation">Reject </button>
+        
+        
+        
+        </td>
+    </tr>
+
+<!--Blank Row 3-->
+
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class = "bookingApprove" style = "background:orange;font-weight:bold;">Approve</button>
+        <br>
+        <button id = "bookingCancellation">Reject </button>
+        
+        
+        
+        </td>
+    </tr>
+
+<!--Blank Row 4-->
+
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class = "bookingApprove" style = "background:orange;font-weight:bold;">Approve</button>
+        <br>
+        <button id = "bookingCancellation">Reject </button>
+        
+        
+        
+        </td>
+    </tr>
+
+<!--Blank Row 5-->
+
+<tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>
+        <button class = "bookingApprove" style = "background:orange;font-weight:bold;">Approve</button>
+        <br>
+        <button id = "bookingCancellation">Reject </button>
+        
+        
+        
+        </td>
+    </tr>
+
+
+
+
+</table>
+
+
+
+
+<br><br><br><br>
+
+
+{% endblock contentBody %}
+
+<!--[This function does not work here, but is implemented functionally in 'main.html']-->
+<script>
+
+ hamburger = document.querySelector(".hamburger");
+ hamburger.onclick = function(){
+    navBar = document.querySelector(".nav-bar");
+    navBar.classList.toggle("active");
+ }
+
+
+</script>
+
+    
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>

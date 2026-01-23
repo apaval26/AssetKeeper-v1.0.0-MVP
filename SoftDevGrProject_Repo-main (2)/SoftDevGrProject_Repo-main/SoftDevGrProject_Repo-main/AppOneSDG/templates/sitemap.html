@@ -1,0 +1,101 @@
+{% extends 'main_user.html' %}
+
+
+{% block contentTitle %}
+    <title>Sitemap</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/contact-us.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <style>
+
+        .links {
+            display:inline-block;
+            
+            width: 167px;
+            height: 61px;
+            background: #020077;
+            color: white;
+            font-weight:bold;
+            font-family: "Montserrat";
+            margin-left: 10px;
+            padding-top: 20px;
+            text-align:center;
+            
+            
+            }
+            
+            .links:hover{
+                background: #5899E2;
+            }
+            
+            #links {
+            margin-left: 45px;
+            }
+            
+    
+    
+    
+    
+    </style>
+    
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<div class = "wrapper">
+
+<div class = "overlay">
+
+<div class = "text">
+
+<h1 id = "intro">Sitemap </h1>
+
+</div>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<h1 class = "title">User Sitemap</h1>
+
+<br><br><br><br><br><br>
+
+<div class="vl"></div>
+
+<div id = "links">
+
+<a href = "/"><div class = "links">Home</div></a>
+<a href = "/devices"><div class = "links">Devices</div></a>
+<a href = "/currentBookings"><div class = "links">Current Bookings</div></a>
+<a href = "/bookingsHistory"><div class = "links">Bookings History</div></a>
+
+<a href = "/logout/"><div class = "links">Log out</div></a>
+<a href = "/contactus"><div class = "links"> Contact us</div></a>
+<a href = "/sitemap"><div class = "links"> Sitemap</div></a>
+<a href = "/updateAccountInformation"><div class = "links"> Update Information</div></a>
+
+
+</div>
+
+
+<br><br><br><br>
+
+
+
+
+{%endblock contentBody%}
+
+<!--[This function does not work here, but is implemented functionally in 'main.html']-->
+<script>
+
+ hamburger = document.querySelector(".hamburger");
+ hamburger.onclick = function(){
+    navBar = document.querySelector(".nav-bar");
+    navBar.classList.toggle("active");
+ }
+
+
+</script>

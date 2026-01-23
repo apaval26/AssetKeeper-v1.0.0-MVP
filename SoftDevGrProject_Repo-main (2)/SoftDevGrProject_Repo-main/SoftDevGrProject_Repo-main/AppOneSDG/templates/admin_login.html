@@ -1,0 +1,109 @@
+{% extends 'main.html' %}
+
+{% block contentTitle %}
+<title>Admin Login</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/background-image.css">
+
+<style>
+    .form-errors p {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .input-container label {
+        color: white;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<div class="login-container">
+    <h1>Admin Login</h1>
+
+    <!-- Django backend error -->
+    {% if message %}
+        <div class="form-errors">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
+
+
+    <form method="post" class="login-form" novalidate>
+        {% csrf_token %}
+
+        <fieldset>
+            <br><br>
+
+            <!-- Django form fields -->
+            {{ form.as_p }}
+
+            <!-- FORGOT PASSWORD -->
+            <div class="forgot-password">
+                <a href="{% url 'forgot_password' %}" style="color:white;">Forgot your password?</a>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="button-container">
+                <button type="submit"><span class="icon">&#128274;</span>Login</button>
+                <button type="button" onclick="clearForm()">Clear Form</button>
+            </div>
+        </fieldset>
+    </form>
+    <!-- JavaScript validation error -->
+<div id="js-error" class="form-errors" style="display:none; margin-top:40px;">
+    <p id="js-error-text"></p>
+</div>
+</div>
+
+<!-- CUSTOM JAVASCRIPT VALIDATION -->
+<script>
+document.querySelector(".login-form").addEventListener("submit", function(event) {
+    const emailField = document.querySelector("input[name='username'], input[name='email']");
+    const passwordField = document.querySelector("input[name='password']");
+
+    const email = emailField ? emailField.value.trim() : "";
+    const password = passwordField ? passwordField.value : "";
+
+    let error = "";
+
+    if (!email && !password) {
+        error = "You must enter your email address and password.";
+    }
+
+    else if (!email) {
+        error = "Please enter your email address";
+    }
+
+    else if (!password) {
+        error = "Please enter your password.";
+    }
+
+    else if (!email.includes("@") || !email.includes(".")) {
+        error = "Email addresses must include the @ and . symbols.";
+    }
+
+    if (error !== "") {
+        event.preventDefault();
+        const box = document.getElementById("js-error");
+        const text = document.getElementById("js-error-text");
+        text.textContent = error;
+        box.style.display = "block";
+    }
+});
+
+function clearForm() {
+    const emailField = document.querySelector("input[name='username'], input[name='email']");
+    const passwordField = document.querySelector("input[name='password']");
+
+    if (emailField) emailField.value = "";
+    if (passwordField) passwordField.value = "";
+}
+</script>
+
+{% endblock contentBody %}

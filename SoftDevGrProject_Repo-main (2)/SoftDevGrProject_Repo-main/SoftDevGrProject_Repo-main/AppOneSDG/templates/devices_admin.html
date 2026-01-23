@@ -1,0 +1,307 @@
+{% extends 'main_admin.html' %}
+
+{% block contentTitle %}
+    <title>Devices Inventory</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/contact-us.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <style>
+        .links {
+            display:inline-block;
+            width: 167px;
+            height: 61px;
+            background: #020077;
+            color: white;
+            font-weight:bold;
+            font-family: "Montserrat";
+            margin-left: 10px;
+            padding-top: 20px;
+            text-align:center;
+        }
+
+        #searchBar {
+            color: var(--text-primary);
+            background-color: var(--body-bg);
+            border-bottom: 1px solid var(--table-border);
+        }
+
+        .links:hover {
+            background: #5899E2;
+        }
+
+        #links {
+            margin-left: 45px;
+        }
+
+        #currentBooking, td, tr, th {
+            border: 1px solid var(--table-border);
+        }
+
+        input::placeholder {
+            font-size:18px;
+        }
+
+        /* Fix table text color in dark mode */
+#currentBooking td,
+#currentBooking th,
+#equipmentSummary td,
+#equipmentSummary th {
+    color: var(--text-primary) !important;
+    background-color: var(--body-bg) !important;
+}
+
+/* Optional: highlight low stock */
+.low-stock {
+    color: orange !important;
+    font-weight: bold;
+}
+
+/* Optional: highlight out of stock */
+.out-of-stock {
+    color: red !important;
+    font-weight: bold;
+}
+
+    </style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<div class="wrapper">
+    <div class="overlay">
+        <div class="text">
+            <h1 id="intro" style="color:white;">Organisational Assets</h1>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<h1 class="title" style="color: var(--text-primary); padding-bottom:60px; font-size:40px;">
+    Organisational Assets
+    <div>
+        <button id="generateReportBtn" class="bookingApprove" style="background:green;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">
+            Generate Report
+        </button>
+
+        <a href="/borrowEquipment">
+            <button class="bookingApprove" style="background:green;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">
+                Borrow Product
+            </button>
+        </a>
+
+        <a href="/returnEquipment">
+            <button class="bookingApprove" style="background:green;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">
+                Return Product
+            </button>
+        </a>
+
+        <a href="{% url 'devices_inventory_sorted' %}">
+            <button class="bookingApprove" style="background:orange;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">
+                Sort From A to Z
+            </button>
+        </a>
+
+        <a href="{% url 'devices_inventory_sorted_desc' %}">
+            <button class="bookingApprove" style="background:orange;font-weight:bold; float:right;margin-right:40px;margin-bottom:50px;">
+                Sort From Z to A
+            </button>
+        </a>
+
+        <button class="filterBtn" data-category="all">All</button>
+        <button class="filterBtn" data-category="PC Peripherals">PC Peripherals</button>
+        <button class="filterBtn" data-category="VR Controller">VR Controller</button>
+        <button class="filterBtn" data-category="PC/Laptop">PC/Laptop</button>
+        <button class="filterBtn" data-category="Phone/Tablets">Phone/Tablets</button>
+        <button class="filterBtn" data-category="Furniture">Furniture</button>
+        <button class="filterBtn" data-category="Other">Other</button>
+
+        <div class="filterContainer">
+            <label><input type="checkbox" class="catFilter" value="PC Peripherals"> PC Peripherals</label>
+            <label><input type="checkbox" class="catFilter" value="VR Controller"> VR Controller</label>
+            <label><input type="checkbox" class="catFilter" value="Laptop"> Laptop</label>
+            <label><input type="checkbox" class="catFilter" value="Mobile Device"> Mobile Devices</label>
+            <label><input type="checkbox" class="catFilter" value="Furniture"> Furniture</label>
+            <label><input type="checkbox" class="catFilter" value="Accessories"> Accessories</label>
+            <label><input type="checkbox" class="catFilter" value="Presentation Tools"> Presentation Tools</label>
+            <label><input type="checkbox" class="catFilter" value="Stationary"> Stationary</label>
+            <label><input type="checkbox" class="catFilter" value="Other"> Other</label>
+          </div>
+
+        
+    </div>
+</h1>
+
+<br><br><br><br>
+
+<input
+  type="search"
+  id="searchBar"
+  placeholder="Search the device you want to borrow by ID, Asset Tag, name or type"
+  style="width:701px; font-size:18px; height:40px; margin-left:500px; color: var(--text-primary); background-color: var(--body-bg); border-bottom: 1px solid var(--table-border);"
+/>
+
+<br><br><br><br>
+
+<p>{{ total_quantity }} Assets</p>
+
+<table style="width:100%" id="currentBooking">
+    <tr>
+        <th>Device ID</th>
+        <th>Device Name</th>
+        <th>Device Description</th>
+        <th>Device Type</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Location</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for equipmentItem in equipments %}
+    <tr data-id="{{ equipmentItem.equipId }}">
+        <td>{{ equipmentItem.equipId }}</td>
+        <td>{{ equipmentItem.equipName }}</td>
+        <td>{{ equipmentItem.equipComments }}</td>
+        <td>{{ equipmentItem.equipType }}</td>
+        <td>{{ equipmentItem.equipQuantity }}</td>
+        <td>{{ equipmentItem.equipStatus }}</td>
+        <td>{{ equipmentItem.equipLocation }}</td>
+        <td>
+            <button class="bookingApprove" style="background:green;font-weight:bold;">Book Now</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br><br><br><br>
+
+<table id="equipmentSummary">
+    <tr>
+        <td>Overall Equipment</td>
+        <td>{{ total_quantity }}</td>
+    </tr>
+    <tr>
+        <td>PC Peripherals</td>
+        <td>{{ pc_peripherals_quantity }}</td>
+    </tr>
+    <tr>
+        <td>VR Controller</td>
+        <td>{{ vr_headset_quantity }}</td>
+    </tr>
+    <tr>
+        <td>PC/Laptop</td>
+        <td>{{ pc_laptop }}</td>
+    </tr>
+   
+    <tr>
+        <td>Furniture</td>
+        <td>{{ furniture }}</td>
+    </tr>
+
+    <tr> <td>Presentation Tools</td> <td>{{ presentation_tools }}</td> </tr> <tr> <td>Stationary</td> <td>{{ stationary }}</td> </tr>
+    <tr>
+        <td>Other</td>
+        <td>{{ other }}</td>
+    </tr>
+</table>
+
+{% endblock contentBody %}
+
+{% block extra_js %}
+<script>
+function fuzzyMatch(text, search) {
+    if (!search) return true;
+    if (text.includes(search)) return true;
+
+    let i = 0, j = 0;
+    while (i < text.length && j < search.length) {
+        if (text[i] === search[j]) { j++; }
+        i++;
+    }
+    return (j / search.length) >= 0.6;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // LIVE SEARCH
+    document.getElementById("searchBar").addEventListener("input", function () {
+        const searchValue = this.value
+            .toLowerCase()
+            .replace(/\u00A0/g, " ")
+            .replace(/\u200B/g, "")
+            .replace(/[^a-z0-9 ]/gi, "")
+            .replace(/\s+/g, "")
+            .trim();
+
+        const rows = document.querySelectorAll("#currentBooking tr[data-id]");
+
+        rows.forEach(row => {
+            const cells = row.querySelectorAll("td");
+            let match = false;
+
+            cells.forEach(cell => {
+                const text = cell.innerText
+                    .toLowerCase()
+                    .replace(/\u00A0/g, " ")
+                    .replace(/\u200B/g, "")
+                    .replace(/[^a-z0-9 ]/gi, "")
+                    .replace(/\s+/g, "")
+                    .trim();
+
+                if (fuzzyMatch(text, searchValue)) {
+                    match = true;
+                }
+            });
+
+            row.style.display = match ? "" : "none";
+        });
+    });
+
+    // CATEGORY CHECKBOX FILTERS
+    const checkboxes = document.querySelectorAll(".catFilter");
+    const filterRows = document.querySelectorAll("#currentBooking tr[data-id]");
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", function () {
+            const selected = Array.from(checkboxes)
+                .filter(c => c.checked)
+                .map(c => c.value.toLowerCase());
+
+            filterRows.forEach(row => {
+                const type = row.cells[3].innerText.toLowerCase();
+
+                if (selected.length === 0 || selected.includes(type)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+
+    // EXPORT ONLY VISIBLE EQUIPMENT
+    document.getElementById("generateReportBtn").addEventListener("click", function () {
+        const visibleIds = [];
+        const dataRows = document.querySelectorAll("#currentBooking tr[data-id]");
+
+        dataRows.forEach(row => {
+            if (row.style.display !== "none") {
+                visibleIds.push(row.getAttribute("data-id"));
+            }
+        });
+
+        if (visibleIds.length === 0) {
+            alert("No results to export.");
+            return;
+        }
+
+        const params = new URLSearchParams();
+        params.append("ids", visibleIds.join(","));
+
+        window.location.href = `/export_equipments_csv/?${params.toString()}`;
+    });
+});
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,365 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+
+
+body {
+    /*background: white;*/
+    background: var(--body-bg);
+}
+
+
+header {
+    width: 100%;
+    height: 80px;
+    /*background: #000044;*/
+    background: var(--navbar-bg); color: var(--navbar-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 100px;
+}
+
+
+#navLogo {
+    margin-top: 8px;
+}
+
+
+.navToggleBtn {
+    display: none;
+}
+
+
+.navLinks ul {
+    display: flex;
+}
+
+
+.navLinks ul li a {
+    display: block;
+    /*color: white;*/
+    color: var(--navbar-text);
+    font-size: 15px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    transition: 0.5s;
+    margin: 0 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+
+.navLinks ul li a:hover {
+    background: #5899E2;
+}
+
+
+.navLinks ul li a.active {
+    background: #5899E2;
+}
+
+
+@media (max-width: 990px) {
+    .navToggleBtn {
+        display: block;
+        cursor: pointer;
+    }
+
+    .navToggleBtn .hamburgerLine {
+        width: 30px;
+        height: 3px;
+        background: white;
+        margin: 6px 0;
+        display: block;
+    }
+
+    .navToggleBtn i {
+        display: none;
+    }
+
+    .navLinks {
+        height: 0;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        /*background: #000044;*/
+        background: var(--navbar-bg);
+        transition: 0.5s;
+        overflow: hidden;
+        z-index: 40;
+    }
+
+    .navLinks.dropdownOpen {
+        height: 450px;
+    }
+
+    .navLinks ul {
+        display: block;
+        width: fit-content;
+        margin: 80px auto 0 auto;
+        text-align: center;
+        transition: 0.5s;
+        opacity: 0;
+    }
+    
+    .navLinks.dropdownOpen ul {
+        opacity: 1;
+    }
+
+    .navLinks ul li a {
+        margin-bottom: 12px;
+    }
+
+    .navToggleBtn.dropdownOpen .hamburgerLine {
+        display: none;
+    }
+
+    .navToggleBtn.dropdownOpen i {
+        display: block;
+        color: white;
+        font-size: 30px;
+        align-items: center;
+    }
+}
+
+
+
+.login-container {
+    width: 400px;
+    margin: 80px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 2px solid white;
+}
+
+.login-container h1 {
+    text-align: center;
+    color:white;
+}
+
+.login-form {
+    margin-top: 50px;
+}
+
+.login-form label {
+   
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color:white;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+}
+
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.label-placeholder {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0.5;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container{
+    text-align: left;
+    margin-top: 20px;
+    
+}
+
+.forgot-password {
+    color:white;
+    text-align: right;
+   
+   
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+.login-form button[type="submit"],
+.login-form button[type="button"] {
+    width: 48%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #2749E2;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-form button[type="submit"]:hover,
+.login-form button[type="button"]:hover {
+    background-color: #007bff;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
+.signup-container {
+    width: 400px;
+    margin: 40px auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    margin-bottom: 30px;
+    border: 2px solid white;
+}
+
+.signup-container h1 {
+    text-align: center;
+    color:white;
+   
+}
+
+.signup-form {
+    margin-top: 30px;
+    
+}
+
+.signup-form label {
+  
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color:white;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  
+   
+}
+
+.signup-form button[type="submit"] {
+    width: 48%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #E29427;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-form button[type="submit"]:hover,
+.signup-form button[type="button"]:hover {
+    background-color: #fcb510;
+}
+
+
+
+.button-container-sign {
+    width: 210%;
+    padding-left: 0px;
+    margin-top: 20px;
+
+}
+ 
+
+#message {
+    margin-top: 20px;
+    text-align: center;
+    color: red;
+    font-size: 18px;
+}
+
+footer {
+    background: #000044;
+    color: white;
+    padding: 5px 0px;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+}
+
+.bookingApprove{
+    background:pink;
+   }
+
+
+
+/* Contact Us Page Code Styling */
+
+
+footer {
+    background: #000044;
+    color: white;
+    padding: 3px 0px;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+}
+
+footer p {
+    padding: 4px;
+}
+
+:root {
+    --navbar-bg: #000044;
+    --navbar-text: white;
+    --body-bg: white;
+    --text-primary: #0a0a0a;
+    --text-secondary: #333333;
+    --table-border: #000000;
+    --button-bg: green;
+    --button-text: white;
+  }
+  
+  [data-theme="dark"] {
+    --navbar-bg: #0d1b2a;
+    --navbar-text: #ffffff;
+    --body-bg: #0a0a0a;
+    --text-primary: #f0f0f0;
+    --text-secondary: #cccccc;
+    --table-border: #ffffff;
+    --button-bg: #1f7a1f;
+    --button-text: #ffffff;
+  }
+  
+
+

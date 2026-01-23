@@ -1,0 +1,21 @@
+{% extends 'main_user.html' %}
+
+
+{% block contentTitle %}
+    <title>Title of the home page</title>
+{% endblock contentTitle%}
+
+
+{% block contentBody %}
+    <div>
+        <h1>very New Home Page</h1>
+    </div>
+
+    <div>
+        {% for item in testdata %}
+        <div>
+            <h5>{{item.id}} ----- {{item.name}}</h5>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock contentBody %}

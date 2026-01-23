@@ -1,0 +1,438 @@
+    footer {
+       width: 100%;
+            height: 80px;
+            background-color: #020035;
+            display: flex;
+            bottom:0;
+            right:0;
+            left:0;
+            top:0;
+            
+            align-items: center;
+            gap: 50px;
+            color: #fff;
+            font-family: "Montserrat";
+            position:relative;
+            font-weight:bold;
+           
+        }
+    
+        /* footer {
+            background: #000044;
+            color: white;
+            padding: 5px 0px;
+            left:0;
+            bottom: 0;
+            
+            text-align: center;
+            position: relative;
+            width: 100%;
+        } */
+    
+        .footerText{
+        
+            margin-right:300px;
+        }
+        
+        
+    
+    
+    .wrapper {
+            background: url("background.jpeg");
+            display: flex;
+            height: 380px;
+            top: 0px;
+            width: 100%;
+           
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    
+    #intro {
+        position: absolute;
+        top: 40%;
+        left: 51%;
+        width: 99%;
+        height: 200px;
+        transform: translate(-40%, -40%);
+        display:flex;
+        /*color: white;*/
+        color: var(--text-primary);
+        font-family: "Montserrat";
+        font-size: 40px;
+        font-weight:bold;
+        
+      
+    }
+    
+    .title{
+    /*color: #0000AA;*/
+    color: var(--text-primary);
+    font-weight: bold;
+    text-align: center;
+    font-family: "Arial Black";
+    font-weight: bold;
+    
+    }
+    
+    .heading{
+    
+        color: gray;
+        font-weight: bold;
+        text-align: center;
+        font-family: "Montserrat";
+        font-weight: bold;
+        
+        }
+    
+    .overlay {
+        display: flex;
+        height: 380px;
+        top: 0px;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-color: rgba(0,0,0,0.5); /* semi transparent colour */
+        
+        }
+    
+    
+    .cards-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+    .card img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .card {
+      margin: 0 0.5em;
+      box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+      border: none;
+      border-radius: 0;
+    }
+    .carousel-inner {
+      padding: 1em;
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+      background-color: #e1e1e1;
+      width: 5vh;
+      height: 5vh;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    @media (min-width: 768px) {
+      .card img {
+        height: 11em;
+      }
+    }
+    
+    .carrusel__wrapper{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50vh;
+    }
+    
+    .item{
+      height: 183px;
+      width: 285px;
+      background: url("image_1_u23.svg");
+      margin: 0 10px;
+    }
+    
+    
+    .field{
+    
+    border-radius:5px; 
+    border: 1px solid black;
+    /* background:#e5e5e5; */
+    width: 554px; 
+    height:36px;
+    padding-left: 10px;
+    font-size:17px;
+    
+    
+    }
+    
+    
+    
+    #button {
+    width:140px;
+    height:41px;
+    color: white;
+    background: #0000AA;
+    font-weight:bold;
+    font-family:'Montserrat';
+    font-size:16px;
+    border-radius:5px;
+    box-shadow: 3px 3px 3px 3px #888888;
+    }
+    
+    #button:hover{
+    
+    background:#39ace7;
+    }
+    
+    /*Contact Us Form styling */
+    
+    #inf {
+    margin-right:20px;
+    }
+    
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        border:1px solid black;
+    }
+    
+    .contact-box{
+        background: #fff;
+        display:flex;
+    }
+    
+    .contact-left{
+        flex-basis:60%;
+        padding:40px 60px;
+    
+    }
+    
+    .contact-right{
+        flex-basis:60%;
+        padding:40px;
+        background: #1c00b5;
+        color:#fff;
+        
+    }
+    
+    #formTitle{
+    margin-bottom: 10px;
+    
+    }
+    
+    .container p {
+        margin-bottom: 40px;
+    }
+    
+    .input-row {
+        display:flex;
+        justify-content: space-between;
+        margin-bottom:20px;
+    }
+    
+    .input-row .input-group{
+        flex-basis:45%;
+    }
+    
+    input {
+    width:100%;
+    border:none;
+    border-bottom: 1px solid #ccc;
+    outline:none;
+    padding-bottom:5px;
+    }
+    
+    
+    textarea{
+        width: 100%;
+        border: 1px solid #ccc;
+        outline:none;
+       padding: 10px;
+       box-sizing: border-box;
+        
+        }
+    
+    
+    label {
+    
+    margin-bottom:6px;
+    display:block;
+    color: #1c00b5;
+    }
+    
+    
+    button {
+    background: #1c00b5;
+    width: 120px;
+    border:none;
+    outline:none;
+    color: #fff;
+    height: 35px;
+    border-radius:30px;
+    margin-top:20px;
+    box-shadow: 0px 5px 15px 0px rgba(28,0,181,0.3);
+    }
+    
+    
+    
+    .contact-left h3 {
+        color: #1c00b5;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+    
+    .contact-right h3 {
+        
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+    
+    
+    tr td:first-child {
+       padding-right: 20px;
+    }
+    
+    tr td{
+    padding-top:20px;
+    }
+    a:visited{
+        
+        color:white;
+        
+    
+    }
+    
+    
+    #saveChanges{
+    
+    margin-left:100px;
+    }
+    
+          
+        /* textarea{
+            width: 554px;
+            height:170px;
+            font-weight:bold;
+            }   */
+    
+    
+    /*Alert Messages */
+    
+    /*Success Alert /*
+    /*Fail Alert */
+    
+    .success-alert {
+    
+    background: green;
+    width: 350px;
+    height:100px;
+    
+    }
+    
+    .success-alert p {
+    padding: 40px;
+    color:white;
+    font-weight:bold;
+    
+        
+        }
+    
+    
+    .fail-alert {
+    
+        background: red;
+        width: 350px;
+        height:100px;
+        
+    
+        }
+    
+        .fail-alert p {
+            padding: 40px;
+            color:white;
+            font-weight:bold;
+            
+                
+                }
+    
+    /*Sitemap */
+    
+    
+    .links {
+    display:inline-block;
+    
+    width: 167px;
+    height: 61px;
+    background: #020077;
+    color: white;
+    font-weight:bold;
+    font-family: "Montserrat";
+    margin-left: 10px;
+    padding-top: 20px;
+    text-align:center;
+    
+    
+    }
+    
+    .links:hover{
+        background: #5899E2;
+    }
+    
+    #links {
+    margin-left: 45px;
+    }
+    
+    
+    /*Current and history bookings table */
+    
+    #currentBooking{
+    
+    /*border: 1px solid black;*/
+    text-align: center;
+    height: 30px;
+    margin:fixed;
+    border: 1px solid var(--table-border); 
+    color: var(--text-secondary);
+    
+    }
+    
+    #bookingCancellation{
+        background:#D9001B;
+        color:white;
+        font-weight:bold;
+        
+        
+    }
+    
+    #bookingReservation{
+        background:#03AE14;
+        color:white;
+        font-weight:bold;
+        
+        
+    }
+
+   .bookingApprove{
+    background:pink;
+   }
+
+
+   :root {
+    --navbar-bg: #000044;
+    --navbar-text: white;
+    --body-bg: white;
+    --text-primary: #0a0a0a;
+    --text-secondary: #333333;
+    --table-border: #000000;
+    --button-bg: green;
+    --button-text: white;
+  }
+  
+  [data-theme="dark"] {
+    --navbar-bg: #0d1b2a;
+    --navbar-text: #ffffff;
+    --body-bg: #0a0a0a;
+    --text-primary: #f0f0f0;
+    --text-secondary: #cccccc;
+    --table-border: #ffffff;
+    --button-bg: #1f7a1f;
+    --button-text: #ffffff;
+  }
+  
+
+    
+    
+    
+    

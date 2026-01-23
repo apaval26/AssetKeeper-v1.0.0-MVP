@@ -1,0 +1,241 @@
+{% extends 'main.html' %}
+
+{% block contentTitle %}
+<title>Sign Up</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/background-image.css">
+
+<style>
+    .field-error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .form-errors p {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .input-container label {
+        color: white;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<div class="signup-container">
+    <h1>Sign Up</h1>
+
+    {% if message %}
+        <div class="form-errors">
+            <p>{{ message }}</p>
+        </div>
+    {% endif %}
+
+    <form method="post" class="signup-form" novalidate>
+        {% csrf_token %}
+
+       
+
+        <!-- FIRST NAME -->
+        <div class="input-container">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName"
+                   value="{{ request.POST.firstName|default_if_none:'' }}">
+            <p class="field-error" id="error-firstName"></p>
+        </div>
+
+        <!-- LAST NAME -->
+        <div class="input-container">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName"
+                   value="{{ request.POST.lastName|default_if_none:'' }}">
+            <p class="field-error" id="error-lastName"></p>
+        </div>
+
+        <!-- CONTACT NUMBER -->
+        <div class="input-container">
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" id="contactNumber" name="contactNumber"
+                   value="{{ request.POST.contactNumber|default_if_none:'' }}">
+            <p class="field-error" id="error-contactNumber"></p>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="input-container">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email"
+                   value="{{ request.POST.email|default_if_none:'' }}">
+            <p class="field-error" id="error-email"></p>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="input-container">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <p class="field-error" id="error-password"></p>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="input-container">
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password">
+            <p class="field-error" id="error-confirm_password"></p>
+        </div>
+
+        <!-- TERMS CHECKBOX -->
+        <div class="checkbox-container">
+            <input type="checkbox" id="agree" name="agree"
+                   {% if request.POST.agree %}checked{% endif %}>
+            <label for="agree">I Agree to the User Terms and Conditions</label>
+        </div>
+        <p class="field-error" id="error-agree"></p>
+
+        <center>
+            <div class="checkbox-container">
+                <label>
+                    Already have an account?
+                    <a href="/login/">Please login here</a>
+                </label>
+            </div>
+        </center>
+
+        <div class="button-container-sign">
+            <button type="submit"><span class="icon">&#128274;</span>Sign Up</button>
+        </div>
+
+    </form>
+</div>
+
+<!-- LIVE VALIDATION JAVASCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const fields = {
+        full_name: document.getElementById("full_name"),
+        firstName: document.getElementById("firstName"),
+        lastName: document.getElementById("lastName"),
+        contact: document.getElementById("contactNumber"),
+        email: document.getElementById("email"),
+        password: document.getElementById("password"),
+        confirmPassword: document.getElementById("confirm_password"),
+        agree: document.getElementById("agree")
+    };
+
+    function showError(id, msg) {
+        document.getElementById(id).textContent = msg;
+    }
+
+    function clearError(id) {
+        document.getElementById(id).textContent = "";
+    }
+
+    // FULL NAME
+    fields.full_name.addEventListener("input", () => {
+        fields.full_name.value.trim()
+            ? clearError("error-full_name")
+            : showError("error-full_name", "Please enter your full name.");
+    });
+
+    // FIRST NAME
+    fields.firstName.addEventListener("input", () => {
+        fields.firstName.value.trim()
+            ? clearError("error-firstName")
+            : showError("error-firstName", "Please enter your first name.");
+    });
+
+    // LAST NAME
+    fields.lastName.addEventListener("input", () => {
+        fields.lastName.value.trim()
+            ? clearError("error-lastName")
+            : showError("error-lastName", "Please enter your last name.");
+    });
+
+    // CONTACT NUMBER
+    fields.contact.addEventListener("input", () => {
+        const val = fields.contact.value.trim();
+        if (!val) {
+            showError("error-contactNumber", "Please enter your contact number.");
+        } else if (!/^[0-9]+$/.test(val)) {
+            showError("error-contactNumber", "Contact number must contain digits only.");
+        } else {
+            clearError("error-contactNumber");
+        }
+    });
+
+    // EMAIL
+    fields.email.addEventListener("input", () => {
+        const val = fields.email.value.trim();
+        if (!val) {
+            showError("error-email", "Please enter your email.");
+        } else if (!val.includes("@") || !val.includes(".")) {
+            showError("error-email", "Invalid email format.");
+        } else {
+            clearError("error-email");
+        }
+    });
+
+    // PASSWORD
+    fields.password.addEventListener("input", () => {
+        const val = fields.password.value;
+        if (!val) {
+            showError("error-password", "Please enter a password.");
+        } else if (val.length < 6) {
+            showError("error-password", "Password must be at least 6 characters.");
+        } else {
+            clearError("error-password");
+        }
+    });
+
+    // CONFIRM PASSWORD
+    fields.confirmPassword.addEventListener("input", () => {
+        const val = fields.confirmPassword.value;
+        if (!val) {
+            showError("error-confirm_password", "Please confirm your password.");
+        } else if (val !== fields.password.value) {
+            showError("error-confirm_password", "Passwords do not match.");
+        } else {
+            clearError("error-confirm_password");
+        }
+    });
+
+    // TERMS CHECKBOX
+    fields.agree.addEventListener("change", () => {
+        fields.agree.checked
+            ? clearError("error-agree")
+            : showError("error-agree", "You must agree to the terms.");
+    });
+
+    // SUBMIT VALIDATION
+    document.querySelector(".signup-form").addEventListener("submit", function(event) {
+        let hasError = false;
+
+        // Trigger all validations
+        fields.full_name.dispatchEvent(new Event("input"));
+        fields.firstName.dispatchEvent(new Event("input"));
+        fields.lastName.dispatchEvent(new Event("input"));
+        fields.contact.dispatchEvent(new Event("input"));
+        fields.email.dispatchEvent(new Event("input"));
+        fields.password.dispatchEvent(new Event("input"));
+        fields.confirmPassword.dispatchEvent(new Event("input"));
+        fields.agree.dispatchEvent(new Event("change"));
+
+        // Check if any error messages exist
+        document.querySelectorAll(".field-error").forEach(e => {
+            if (e.textContent.trim() !== "") hasError = true;
+        });
+
+        if (hasError) event.preventDefault();
+    });
+
+});
+</script>
+
+{% endblock contentBody %}

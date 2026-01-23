@@ -1,0 +1,182 @@
+{% extends "main_user.html" %}
+
+{% block contentTitle %}
+    <title>Current Bookings</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/static/AppOneSDG/contact-us.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <style>
+        #currentBooking,
+        td,
+        tr,
+        th {
+            border: 1px solid var(--table-border); 
+    color: var(--text-secondary);
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+{% endblock extra_css %}
+
+
+{% block contentBody %}
+<div class = "wrapper">
+
+    <div class = "overlay">
+    
+    <div class = "text">
+    
+    <h1 id = "intro" style = "color:white;">Current Bookings </h1>
+    
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+    <h1 style="text-align:center; color:var(--text-primary)">
+        Current Bookings
+    </h1>
+
+    <br><br><br><br>
+<input
+  type="search"
+  id="searchBar"
+  placeholder="Search the device you want to borrow by ID, Asset Tag, name or type"
+  style=" width:701px; font-size:18px; height:40px; margin-left:500px;color: var(--text-primary); background-color: var(--body-bg); border-bottom: 1px solid var(--table-border); "
+>
+<button id = "exportBookingsBtn" class="bookingApprove" style="background:green; font-weight:bold; float:right; margin-right:40px; margin-bottom:50px;"> Generate Report </button> </a>
+
+    <br><br>
+
+    <table id="currentBooking" style="width:100%">
+        <tr>
+            <th>Device ID</th>
+            <th>Device Name</th>
+            <th>Device Type</th>
+            <th>Reservation ID</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Quantity</th>
+            <th>Return Date</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for r in reservations %}
+            <tr data-id="{{ r.reservationId }}">
+                <td>{{ r.equipId.equipId }}</td>
+                <td>{{ r.equipId.equipName }}</td>
+                <td>{{ r.equipId.equipType }}</td>
+                <td>{{ r.reservationId }}</td>
+                <td>{{ r.equipId.equipLocation }}</td>
+                <td>{{ r.reservationStatus }}</td>
+                <td>{{ r.quantityBorrowed }}</td>
+                <td>{{ r.returnDate }}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button class="cancelBtn">
+                            Cancel Booking
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="9">
+                    You have no current bookings.
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br><br>
+{% endblock contentBody %}
+
+{% block extra_js %}
+<script>
+    function fuzzyMatch(text, search) {
+        if (!search) return true;
+    
+        // Fuzzy character match
+        let i = 0, j = 0;
+        while (i < text.length && j < search.length) {
+            if (text[i] === search[j]) j++;
+            i++;
+        }
+    
+        // Require at least 80% character match for fuzzy match
+        return (j / search.length) >= 0.8;
+    }
+    
+document.addEventListener("DOMContentLoaded", function () {
+
+    // LIVE SEARCH
+    document.getElementById("searchBar").addEventListener("input", function () {
+        const searchValue = this.value
+            .toLowerCase()
+            .replace(/\u00A0/g, " ")
+            .replace(/\u200B/g, "")
+            .replace(/[^a-z0-9 ]/gi, "")
+            .replace(/\s+/g, "")
+            .trim();
+    
+        const rows = document.querySelectorAll("#currentBooking tr");
+    
+        rows.forEach((row, index) => {
+            if (index === 0) return; // skip header
+    
+            const cells = row.querySelectorAll("td");
+            let match = false;
+    
+            cells.forEach((cell, colIndex) => {
+                const text = cell.innerText
+                    .toLowerCase()
+                    .replace(/\u00A0/g, " ")
+                    .replace(/\u200B/g, "")
+                    .replace(/[^a-z0-9 ]/gi, "")
+                    .replace(/\s+/g, "")
+                    .trim();
+    
+                // Exact match for numeric columns
+                if ([0, 3, 6].includes(colIndex)) { // Device ID, Reservation ID, Quantity
+                    if (text === searchValue) match = true;
+                }
+                else {
+                    if (fuzzyMatch(text, searchValue)) match = true;
+                }
+            });
+    
+            row.style.display = match ? "" : "none";
+        });
+    });
+    
+
+    // EXPORT ONLY VISIBLE ROWS
+    document.getElementById("exportBookingsBtn").addEventListener("click", function () {
+        const visibleIds = [];
+        const dataRows = document.querySelectorAll("#currentBooking tr[data-id]");
+
+        dataRows.forEach(row => {
+            if (row.style.display !== "none") {
+                visibleIds.push(row.getAttribute("data-id"));
+            }
+        });
+    
+        if (visibleIds.length === 0) {
+            alert("No results to export.");
+            return; // stop here
+        }
+
+        const params = new URLSearchParams();
+        params.append("ids", visibleIds.join(","));
+
+        window.location.href = `/export_current_bookings_user/?${params.toString()}`;
+    });
+
+});
+</script>
+{% endblock extra_js %}

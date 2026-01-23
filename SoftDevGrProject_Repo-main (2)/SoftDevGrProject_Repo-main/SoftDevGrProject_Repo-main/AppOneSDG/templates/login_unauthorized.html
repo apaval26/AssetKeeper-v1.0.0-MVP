@@ -1,0 +1,25 @@
+{% block contentTitle %}
+    <title>Login</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+   
+{% endblock extra_css %}
+
+{% block contentBody %}
+        <h1> 404 Unauthorized access </h1>
+        <p style = "font-size:20px;"> The following page is forbidden for non registered users. </p>
+        <a style = "font-size:20px;" href="/login/"> Back to Login</a></li>
+        <br>
+        <br>
+        <a style = "font-size:20px;" href="/sign_up/">Back to Sign Up</a></li>
+    
+        
+    <!--[This function does not work here, but is implemented functionally in 'main.html']-->
+    <script>
+        function clearForm() {
+            document.getElementById("email").value = "";
+            document.getElementById("password").value = "";
+        }
+    </script>
+{% endblock contentBody %}

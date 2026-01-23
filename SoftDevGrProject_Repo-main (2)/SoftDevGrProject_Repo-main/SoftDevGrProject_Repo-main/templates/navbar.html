@@ -1,0 +1,27 @@
+
+<!--This is the navigation bar that appears for users who are not logged in-->
+<!--The nav bar here, along with all of the other nav bars, are responsive in design-->
+
+<div id="navLogo">
+    <a href="/">
+        <img src="/static/AppOneSDG/Asset Keeper.png" width = "280" height = "80" alt="WLogo">
+    </a>
+</div>
+
+<div class="navToggleBtn">
+    <div class="hamburgerLine"></div>
+    <div class="hamburgerLine"></div>
+    <div class="hamburgerLine"></div>
+    <i class='fa-solid fa-xmark'></i>
+</div>
+
+<nav class="navLinks">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/sign_up/">Sign Up</a></li>
+        <li><a href="/login/">Login</a></li>
+        <button id="theme-toggle" aria-label="Toggle theme" style = "background:transparent; :root { --navbar-bg: white; --navbar-text: #1a1a1a; } [data-theme="dark"] { --navbar-bg: #0d1b2a; /* deep navy */ --navbar-text: #ffffff; }">🌙</button>
+    </ul>
+</nav>
+
+<script> const toggleBtn = document.getElementById('theme-toggle'); const root = document.documentElement; toggleBtn.addEventListener('click', () => { const currentTheme = root.getAttribute('data-theme'); const newTheme = currentTheme === 'dark' ? 'light' : 'dark'; root.setAttribute('data-theme', newTheme); toggleBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙'; }); </script>

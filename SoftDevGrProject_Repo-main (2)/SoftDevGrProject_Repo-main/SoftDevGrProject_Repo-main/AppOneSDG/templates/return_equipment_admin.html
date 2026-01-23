@@ -1,0 +1,253 @@
+{% extends 'main_admin.html' %}
+
+{% block contentTitle %}
+    <title>Return Equipment</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/mystylesheetSDG.css">
+<link rel="stylesheet" type="text/css" href="/static/AppOneSDG/contact-us.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+<style>
+    form {
+        margin-left: 100px;
+        font-family: "Montserrat";
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 400px;
+        padding: 8px;
+        margin-top: 5px;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #020077;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5899E2;
+    }
+
+    .field-error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    input.error, select.error, textarea.error {
+        border: 2px solid red;
+    }
+</style>
+{% endblock extra_css %}
+
+{% block contentBody %}
+
+<h1 style="margin-left: 100px;color: var(--text-primary);">Return Equipment</h1>
+
+<form id="returnForm" method="POST" action="{% url 'returnEquipmentUser' %}">
+    {% csrf_token %}
+
+    <label style="color: var(--text-primary);">Equipment ID</label>
+    <input type="text" name="equipId">
+    <p class="field-error" id="error-equipId"></p>
+
+    <label style="color: var(--text-primary);">Select Reservation</label>
+    <select name="reservationId" id="reservationSelect">
+        <option value="">-- Select a reservation --</option>
+        {% for r in reservations %}
+            <option value="{{ r.reservationId }}" data-borrowed="{{ r.quantityBorrowed }}">
+                (Reservation ID: {{ r.reservationId }}) {{ r.equipId.equipName }} (ID: {{ r.equipId.equipId }})
+                - Borrowed: {{ r.quantityBorrowed }}
+                - Return by: {{ r.returnDate }}
+            </option>
+        {% endfor %}
+    </select>
+    <p class="field-error" id="error-reservationId"></p>
+
+    <label style="color: var(--text-primary);">Quantity Returned</label>
+    <input type="number" name="quantityBorrowed" id="quantityReturned" min="1">
+    <p class="field-error" id="error-quantityBorrowed"></p>
+
+    <label style="color: var(--text-primary);">Date Returned</label>
+    <input type="date" name="dateReturned" id="dateReturned">
+    <p class="field-error" id="error-dateReturned"></p>
+
+    <label style="color: var(--text-primary);">Notes</label>
+    <textarea name="notes"></textarea>
+    <p class="field-error" id="error-notes"></p>
+
+    <label>
+        <input type="checkbox" name="agreement">
+        I confirm that this equipment has been returned.
+    </label>
+    <p class="field-error" id="error-agreement"></p>
+
+    <button type="submit" style="background: #E29427">Submit</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const form = document.getElementById("returnForm");
+    
+        const equipId = document.querySelector("input[name='equipId']");
+        const reservationId = document.getElementById("reservationSelect");
+        const quantityReturned = document.getElementById("quantityReturned");
+        const dateReturned = document.getElementById("dateReturned");
+        const notes = document.querySelector("textarea[name='notes']");
+        const agreement = document.querySelector("input[name='agreement']");
+    
+        let maxBorrowed = 0;
+    
+        function setError(id, msg) {
+            document.getElementById(id).textContent = msg;
+        }
+    
+        function clearError(id) {
+            document.getElementById(id).textContent = "";
+        }
+    
+        // Equipment ID validation
+        equipId.addEventListener("input", () => {
+            equipId.value.trim()
+                ? clearError("error-equipId")
+                : setError("error-equipId", "Equipment ID is required.");
+        });
+    
+        // Reservation selection
+        reservationId.addEventListener("change", () => {
+            const selected = reservationId.options[reservationId.selectedIndex];
+            maxBorrowed = selected.dataset.borrowed ? parseInt(selected.dataset.borrowed) : 0;
+    
+            reservationId.value
+                ? clearError("error-reservationId")
+                : setError("error-reservationId", "Please select a reservation.");
+    
+            quantityReturned.value = "";
+            clearError("error-quantityBorrowed");
+        });
+    
+        // Quantity validation (must match borrowed)
+        quantityReturned.addEventListener("input", () => {
+            const value = parseInt(quantityReturned.value);
+    
+            if (!value || value < 1) {
+                setError("error-quantityBorrowed", "Quantity must be at least 1.");
+                return;
+            }
+    
+            if (maxBorrowed && value > maxBorrowed) {
+                setError("error-quantityBorrowed", `You cannot return more than ${maxBorrowed}.`);
+                return;
+            }
+    
+            if (maxBorrowed && value < maxBorrowed) {
+                setError("error-quantityBorrowed", `You must return exactly ${maxBorrowed}.`);
+                return;
+            }
+    
+            clearError("error-quantityBorrowed");
+        });
+    
+        // Date validation — must be TODAY only
+        dateReturned.addEventListener("change", () => {
+            const today = new Date().toISOString().split("T")[0];
+            const selected = dateReturned.value;
+    
+            if (!selected) {
+                setError("error-dateReturned", "Please select a return date.");
+                return;
+            }
+    
+            if (selected !== today) {
+                setError("error-dateReturned", "Return date must be today.");
+                return;
+            }
+    
+            clearError("error-dateReturned");
+        });
+    
+        // Notes validation
+        notes.addEventListener("input", () => {
+            notes.value.length > 300
+                ? setError("error-notes", "Notes cannot exceed 300 characters.")
+                : clearError("error-notes");
+        });
+    
+        // Checkbox validation
+        agreement.addEventListener("change", () => {
+            agreement.checked
+                ? clearError("error-agreement")
+                : setError("error-agreement", "You must confirm the return.");
+        });
+    
+        // Submit validation
+        form.addEventListener("submit", function (event) {
+            let hasError = false;
+    
+            if (!equipId.value.trim()) {
+                setError("error-equipId", "Equipment ID is required.");
+                hasError = true;
+            }
+    
+            if (!reservationId.value) {
+                setError("error-reservationId", "Please select a reservation.");
+                hasError = true;
+            }
+    
+            const qty = parseInt(quantityReturned.value);
+    
+            if (!qty || qty < 1) {
+                setError("error-quantityBorrowed", "Quantity must be at least 1.");
+                hasError = true;
+    
+            } else if (maxBorrowed && qty > maxBorrowed) {
+                setError("error-quantityBorrowed", `You cannot return more than ${maxBorrowed}.`);
+                hasError = true;
+    
+            } else if (maxBorrowed && qty < maxBorrowed) {
+                setError("error-quantityBorrowed", `You must return exactly ${maxBorrowed}.`);
+                hasError = true;
+            }
+    
+            const today = new Date().toISOString().split("T")[0];
+            const selected = dateReturned.value;
+    
+            if (!selected) {
+                setError("error-dateReturned", "Please select a return date.");
+                hasError = true;
+    
+            } else if (selected !== today) {
+                setError("error-dateReturned", "Return date must be today.");
+                hasError = true;
+            }
+    
+            if (!agreement.checked) {
+                setError("error-agreement", "You must confirm the return.");
+                hasError = true;
+            }
+    
+            if (hasError) event.preventDefault();
+        });
+    
+    });
+    </script>
+    
+
+{% endblock contentBody %}

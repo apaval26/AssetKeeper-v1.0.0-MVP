@@ -1,0 +1,342 @@
+{% extends 'main_admin.html' %}
+
+
+{% block contentTitle %}
+    <title>Update Account Information</title>
+{% endblock contentTitle %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/CSS" href="/static/AppOneSDG/contact-us.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <style>
+
+        .links {
+            display:inline-block;
+            
+            width: 167px;
+            height: 61px;
+            background: #020077;
+            color: white;
+            font-weight:bold;
+            font-family: "Montserrat";
+            margin-left: 10px;
+            padding-top: 20px;
+            text-align:center;
+            
+            
+            }
+            
+            .links:hover{
+                background: #5899E2;
+            }
+            
+            #links {
+            margin-left: 45px;
+            }
+            
+    
+    
+    
+    
+    </style>
+    
+{% endblock extra_css %}
+
+
+
+{%block contentBody%}
+
+
+<div class = "wrapper">
+
+<div class = "overlay">
+
+<div class = "text">
+
+    {% comment %} <!--Success Alert-->
+
+    <div class = "success-alert">
+
+        <p>Account Updated Successfully.</p>
+        
+        </div>
+
+        
+    <!--Fail Alert-->
+    
+        <div class = "fail-alert">
+    
+            <p>Account Update Failed.</p>
+            
+            </div> {% endcomment %}
+
+
+
+<h1 id = "intro" style = "margin-left:400px;font-size:60px;">Update Product </h1>
+
+</div>
+</div>
+</div>
+</div>
+
+<br>
+<br>
+<h1 class = "title">Update Product</h1>
+
+<form method = "GET" name = "myForm" onsubmit = "return validateForm()">
+
+<div class = "container">
+
+<div class = "contact-box" style = "margin-left:390px;">
+
+
+
+
+<div class = "contact-left" >
+
+
+<div class = "input-row">
+
+<div class="input-group">
+
+<!---Full Name field -->
+
+<label> Product Name</label>
+<input type = "text" name = "productName"  required/>
+</div>
+
+<div class="input-group">
+        <label> Product Description </label>
+        <textarea rows = "2"></textarea>
+        
+        </div>
+
+    
+
+</div>
+
+<div class = "input-row">
+
+    <div class="input-group">
+    
+    
+    
+    <label> Product Image </label>
+    <input type = "file"  name = "productImage" id = "productImage" required/>
+
+    
+    </div>
+    
+    <div class="input-group">
+    
+            <label> Audit Date </label>
+            <input type = "date"  name = "quantity" required/>
+            
+            </div>
+    
+        
+    
+    </div>
+
+
+<div class = "input-row">
+
+    <div class="input-group">
+    
+    
+    
+    <label> Type </label>
+    <input type = "text"  name = "type" required/>
+    
+    </div>
+    
+    <div class="input-group">
+    
+            <label> Availability </label>
+            <input type = "text" name = "telephoneNumber" required/>
+            
+            </div>
+    
+        
+    
+    </div>
+
+    <div class = "input-row">
+
+        <div class="input-group">
+        
+        
+        
+        <label> Product ID </label>
+        <input type = "number"  name = "productID" required/>
+        
+        </div>
+        
+        <div class="input-group">
+        
+                <label> Quantity </label>
+                <input type = "number"  name = "quantity" required/>
+                
+                </div>
+        
+            
+        
+        </div>
+
+
+        <div class = "input-row">
+
+            <div class="input-group">
+            
+            
+            
+            <label> Comments </label>
+            <textarea rows = "5" placeholder = "Add Product Comment"></textarea>
+            
+            </div>
+            
+            <div class="input-group">
+            
+                    <label> Device Serial Number </label>
+                    <input type = "text"  name = "serialNumber" required/>
+                    
+                    </div>
+            
+                
+            
+            </div>
+
+            <div class = "input-row">
+
+                <div class="input-group">
+                
+                
+                
+                <label> CPU </label>
+                <input type = "text"  name = "CPU" required/>
+                
+                </div>
+                
+                <div class="input-group">
+                
+                        <label> GPU </label>
+                        <input type = "text"  name = "GPU" required/>
+                        
+                        </div>
+                
+                    
+                
+                </div>
+
+                <div class = "input-row">
+
+                    <div class="input-group">
+                    
+                    
+                    
+                    <label> RAM </label>
+                    <input type = "text"  name = "RAM" required/>
+                    
+                    </div>
+                    
+                  
+                    
+                        
+                    
+                    </div>
+        
+    
+
+    <button type = "submit" id = "saveChanges"> Save Changes </button>
+    
+
+</form>
+
+
+
+
+
+</div>
+
+
+</div>
+</div>
+
+{%endblock contentBody%}
+
+<script>
+
+function test(){
+    alert("HACKED!");
+}
+
+</script>
+
+<!--[This function does not work here, but is implemented functionally in 'main.html']-->
+<script>
+
+ hamburger = document.querySelector(".hamburger");
+ hamburger.onclick = function(){
+    navBar = document.querySelector(".nav-bar");
+    navBar.classList.toggle("active");
+ }
+
+ function validateForm() {
+    let firstName = document.forms["myForm"]["firstName"].value;
+    let lastName = document.forms["myForm"]["lastName"].value;
+    let emailAddress = document.forms["myForm"]["emailAddress"].value;
+    let password = document.forms["myForm"]["password"].value;
+    let telephoneNumber = document.forms["myForm"]["telephoneNumber"].value;
+    
+    if (firstName == "") {
+      alert("You must fill in your first name!");
+      return false;
+      
+    }
+    
+    else if(lastName == "") {
+    
+     alert("You must fill in your last name!");
+      return false;
+    
+    
+    }
+    
+    else if(password == "") {
+    
+     alert("You must fill in your existing password!");
+      return false;
+      
+    }
+    
+    else if(telephoneNumber == "") {
+    
+     alert("You must fill in your telephone number!");
+      return false;
+    
+    }
+    
+    
+    
+    
+    
+    
+  }
+
+
+</script>
+
+    
+
+
+</body>
+
+
+
+
+
+
+
+
+
+</html>
