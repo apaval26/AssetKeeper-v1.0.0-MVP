@@ -29,6 +29,8 @@ This avoids the bash syntax error you saw earlier.
 
 If no directory found message is displayed, type ls in the console and copy and paste the SoftDevGrProject_Repo-main(2) from there with the quotation marks and add it to the cd command.
 
+Then type cd SoftDevGrProject_Repo-main command twice.
+
 4. Install dependencies
 If you have a requirements.txt:
 pip install -r requirements.txt in the terminal.
@@ -40,7 +42,7 @@ pip install django
 pip install apscheduler(automated notifications)
 
 6. Run the application
-python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 
 Codespaces requires the 0.0.0.0 binding so the port can be forwarded.
 
 
