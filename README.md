@@ -24,32 +24,20 @@ No local setup needed.
 
 2. Navigate to the project folder
 If your MVP is inside a subfolder with parentheses, they must be quoted:
-
-bash
 cd "SoftDevGrProject_Repo-main(2)"
 This avoids the bash syntax error you saw earlier.
 
-3. Create and activate a virtual environment
-Codespaces supports this out of the box:
-
-bash
-python3 -m venv venv
-source venv/bin/activate
-(Windows-style activation isn’t needed because Codespaces runs Linux.)
-
-4. Install dependencies
+3. Install dependencies
 If you have a requirements.txt:
-
-bash
-pip install -r requirements.txt
+pip install -r requirements.txt in the terminal.
 If not, you can skip this step.
 
-5. Run the application
-Depending on your framework:
+4. Install Django and ApScheduler(If not included)
 
-If Django
-bash
-python manage.py migrate
+pip install django
+pip install apscheduler(automated notifications)
+
+6. Run the application
 python manage.py runserver 0.0.0.0:8000
 Codespaces requires the 0.0.0.0 binding so the port can be forwarded.
 
