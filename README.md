@@ -27,12 +27,14 @@ If your MVP is inside a subfolder with parentheses, they must be quoted:
 cd "SoftDevGrProject_Repo-main(2)"
 This avoids the bash syntax error you saw earlier.
 
-3. Install dependencies
+If no directory found message is displayed, type ls in the console and copy and paste the SoftDevGrProject_Repo-main(2) from there with the quotation marks and add it to the cd command.
+
+4. Install dependencies
 If you have a requirements.txt:
 pip install -r requirements.txt in the terminal.
 If not, you can skip this step.
 
-4. Install Django and ApScheduler(If not included)
+5. Install Django and ApScheduler(If not included)
 
 pip install django
 pip install apscheduler(automated notifications)
