@@ -1,14 +1,15 @@
-# AssetKeeper v1.0.0 MVP
-This repository contains  the Minimum Viable Product for the AssetKeeper asset management system final year project.
+This repository contains the Minimum Viable Product (MVP) for the AssetKeeper asset management system final‑year project.
 
-1. Open the repository in Codespaces
-Your supervisor can do this directly from your repo:
+1. Open the repository in GitHub Codespaces
+Your supervisor can run the project directly in the cloud without installing anything locally.
+
+Open the GitHub repository
 
 Click Code
 
-Select Codespaces
+Select the Codespaces tab
 
-Click “Create codespace on main”
+Click Create codespace on main
 
 GitHub will automatically create a cloud development environment with:
 
@@ -18,31 +19,42 @@ VS Code interface
 
 Terminal access
 
-Your project files ready to run
+All project files ready to run
 
-No local setup needed.
+No local setup is required.
 
 2. Navigate to the project folder
-If your MVP is inside a subfolder with parentheses, they must be quoted:
+If the project folder contains parentheses, it must be quoted in the terminal to avoid a Bash syntax error.
+
+Example:
+
+Code
 cd "SoftDevGrProject_Repo-main(2)"
-This avoids the bash syntax error you saw earlier.
+If the terminal reports “No such file or directory”, type:
 
-If no directory found message is displayed, type ls in the console and copy and paste the SoftDevGrProject_Repo-main(2) from there with the quotation marks and add it to the cd command.
+Code
+ls
+Then copy the exact folder name shown and use it inside quotes:
 
-Then type cd SoftDevGrProject_Repo-main command twice.
+Code
+cd "<folder name>"
+If the project contains a nested folder with the same name, enter it:
 
-4. Install dependencies
-If you have a requirements.txt:
-pip install -r requirements.txt in the terminal.
-If not, you can skip this step.
+Code
+cd SoftDevGrProject_Repo-main
+3. Install dependencies
+If the repository includes a requirements.txt file:
 
-5. Install Django and ApScheduler(If not included)
+Code
+pip install -r requirements.txt
+If not, install Django and APScheduler manually:
 
+Code
 pip install django
-pip install apscheduler(automated notifications)
+pip install apscheduler
+4. Run the application
+Start the Django development server:
 
-6. Run the application
-python manage.py runserver 
-Codespaces requires the 0.0.0.0 binding so the port can be forwarded.
-
-
+Code
+python manage.py runserver 0.0.0.0:8000
+Codespaces requires the 0.0.0.0 binding so the port can be forwarded to the browser.
